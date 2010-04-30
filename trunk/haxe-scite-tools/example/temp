@@ -26,6 +26,8 @@ class Test extends Sprite {
 
 		var suse : String;
 
+		suse.
+
 		output = new BitmapData(400,200,false,0xffff0000);
 		outBmp = new Bitmap(output);
 		addChild(outBmp);

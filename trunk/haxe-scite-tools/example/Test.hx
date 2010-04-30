@@ -8,6 +8,7 @@ import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 import flash.ui.Keyboard;
 
+
 class Test extends Sprite {
 	static var frame : Int = 0;
 	static inline var framerate : Int = 25;
@@ -29,7 +30,9 @@ class Test extends Sprite {
 		output = new BitmapData(400,200,false,0xffff0000);
 		outBmp = new Bitmap(output);
 		addChild(outBmp);
-
+		
+		
+		
 		display_txt = new TextField();
 		addChild(display_txt);
 		this.setChildIndex(outBmp,0);
