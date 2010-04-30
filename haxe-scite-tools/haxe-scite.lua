@@ -44,17 +44,29 @@ function showCodeComplete()
 end
 
 
+
 function getCodeCompletionItems(displayXml) 
 	items = {}
-	for w in string.gmatch(displayXml, "n=\"([^%s]*)\"") do
-		table.insert(items,w);
+	for name,args in string.gmatch(displayXml, "<i n=\"(%S*)\".-<t>(.-)</t>") do
+		displayString = name;
+		if #args>0 then
+			argsText = args:gsub("\n",""):gsub("&gt;",">"):gsub("&lt;","<"):gsub("?","")
+			displayString = displayString.." ("..argsText..")"
+		end
+		table.insert(items,displayString);
 	end
 	return items
 end
 
+t = getCodeCompletionItems("<list> <i n=\"Boot\"><t>tol\nl</t><d><list> <i n=\"bla\"><t></t><d>") 
+for i,v in ipairs(t) do
+	-- print(v)
+end
+
+
  function showUserList(list)
    local s = ''
-   local sep = ';'
+   local sep = '§'
    local n = table.getn(list)
    for i = 1,n-1 do
       s = s..list[i]..sep
@@ -65,9 +77,12 @@ end
    editor.AutoCSeparator = string.byte(' ')
  end
  
- function OnUserListSelection(tp,script)
+ function OnUserListSelection(tp,item)
    if tp == 12 then 
-	print(script)
+	insertText = item:gsub(" (.*","")
+	pos = editor.CurrentPos
+	editor:insert(pos,insertText)
+	editor:GotoPos(pos+#insertText)
    end
  end
 
