@@ -1,0 +1,55 @@
+nav ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+nav ul li{
+	display: inline;
+	margin: 0;
+	padding: 0;
+	font-weight: bold;
+}
+
+nav ul li a{
+	font-weight: normal;
+}
+
+header {
+	padding: 0.2em;
+	border-bottom: 1px solid silver;
+}
+
+form,
+.bigLogo {
+	width: 40em;
+	margin: 1em auto;
+	border: 2px solid #f0f0f0;
+	padding: 1em;
+	-webkit-border-radius: 1em; 
+	-moz-border-radius: 1em;
+	background: #f8f8f8;
+}
+
+.bigLogo p{
+	text-align: right;
+}
+	
+
+label,input {
+	display:block;
+}
+
+#action {
+	width: 100%;
+}
+
+input {
+	margin-bottom: 0.5em;
+}
+
+
+
+nav,header,section {
+	display: block;	
+}	
