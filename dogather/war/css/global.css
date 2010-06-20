@@ -1,17 +1,31 @@
-nav ul{
+body {
+	color: #333333;
+	font-family: sans-serif;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover, a:focus {
+	text-decoration: underline;
+}
+
+
+nav ul {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 
-nav ul li{
+nav ul li {
 	display: inline;
 	margin: 0;
 	padding: 0;
 	font-weight: bold;
 }
 
-nav ul li a{
+nav ul li a {
 	font-weight: normal;
 }
 
@@ -20,24 +34,44 @@ header {
 	border-bottom: 1px solid silver;
 }
 
-form,
-.bigLogo {
+form,.bigLogo {
 	width: 40em;
 	margin: 1em auto;
 	border: 2px solid #f0f0f0;
 	padding: 1em;
-	-webkit-border-radius: 1em; 
+	-webkit-border-radius: 1em;
 	-moz-border-radius: 1em;
-	background: #f8f8f8;
+	background-color: #f8f8f8; background : -webkit-gradient( linear, 0% 0%
+	, 0% 100%, from( #FFFFFF), to( #ffffff), color-stop( .80, #f0f0f0));
+	-webkit-box-shadow: 2px 2px 2px #888888;
+	-moz-box-shadow: 2px 2px 2px #888888;
+	box-shadow: 2px 2px 2px #888888;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF),
+		to(#ffffff), color-stop(.80, #f0f0f0) );
 }
 
-.bigLogo p{
+.bigLogo p {
 	text-align: right;
 }
+
+.bigLogo {
+	text-shadow: 3px 3px 5px #b0b0b0;
+}
+
+h1 {
 	
+	font-family: 'Tangerine', arial, serif;
+	/*font-family: 'Lobster', arial, serif;*/
+	font-size:4em;
+	margin:0;
+}
+
+label {
+	color: #808080;
+}
 
 label,input {
-	display:block;
+	display: block;
 }
 
 #action {
@@ -45,11 +79,26 @@ label,input {
 }
 
 input {
-	margin-bottom: 0.5em;
+	margin-bottom: 1em;
 }
 
+input[type=search] {
+	border:1px solid #a0a0a0;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	padding: 4px;
+	font-size: 1.2em;
+}
 
+input[type=submit] {
+	font-size: 1.2em;
+	/* -webkit-transition: all 1s ease;*/
+}
+
+input[type=submit]:hover {
+	/*font-size: 1.3em;*/
+}
 
 nav,header,section {
-	display: block;	
-}	
+	display: block;
+}
