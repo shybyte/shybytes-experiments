@@ -16,7 +16,7 @@
     <xsl:variable name="vars">
       <var name="i0" val="{$arg}"/>
     </xsl:variable>
-    <xsl:variable name="stack" select="'':''"/>
+    <xsl:variable name="stack" select="'123:'"/>
     
     
     <html>
@@ -41,20 +41,64 @@
   <xsl:template name="process">
     <xsl:param name="code"/>
     <xsl:param name="vars"/>
+    <xsl:param name="stack"/>
     <xsl:variable name="statementTail" select="normalize-space(substring-after($code, ': '))"/>
+    <xsl:variable name="stackTail" select="normalize-space(substring-after($stack, ':'))"/>
+    <xsl:variable name="stackHead" select="normalize-space(substring-before($stack, ':'))"/>
     <xsl:choose>
     <xsl:when test="starts-with($statementTail,'ireturn')">
+      <xsl:value-of select="$statementTail"/><br/>
       <h3>Result:</h3> 
-      <xsl:value-of select="exslt:node-set($vars)/var[@name='i0']/@val"/>      
+      <!--<xsl:value-of select="exslt:node-set($vars)/var[@name='i0']/@val"/>-->
+      <xsl:value-of select="$stackHead"/>      
     </xsl:when>
     <xsl:otherwise>
       <xsl:variable name="statementRaw" select="substring-before($statementTail, ': ')"/>
       <xsl:variable name="statement" select="substring-before($statementRaw, ' ')"/>    
       <xsl:value-of select="$statement"/><br/>
-        <xsl:call-template name="process">
-          <xsl:with-param name="code"  select='$statementTail'  />
-          <xsl:with-param name="vars"  select='$vars'  />
-        </xsl:call-template>
+      
+        <xsl:choose>   
+                 
+          <xsl:when test="starts-with($statement,'iload_0')">
+            <xsl:variable name="newStackHead" select="exslt:node-set($vars)/var[@name='i0']/@val"/>                        
+            <xsl:call-template name="process">
+              <xsl:with-param name="code"  select='$statementTail'  />
+              <xsl:with-param name="vars"  select='$vars'  />
+              <xsl:with-param name="stack"  select="concat($newStackHead,':',$stack)"  />
+            </xsl:call-template>
+          </xsl:when>  
+          
+          <xsl:when test="starts-with($statement,'iconst_1')">
+            <xsl:variable name="newStackHead" select="substring-after($statement,'_')"/>                        
+            <xsl:call-template name="process">
+              <xsl:with-param name="code"  select='$statementTail'  />
+              <xsl:with-param name="vars"  select='$vars'  />
+              <xsl:with-param name="stack"  select="concat($newStackHead,':',$stack)"  />
+            </xsl:call-template>
+          </xsl:when> 
+          
+          <xsl:when test="starts-with($statement,'iadd')">            
+            <xsl:variable name="stackTail2" select="normalize-space(substring-after($stackTail, ':'))"/>
+            <xsl:variable name="stackHead2" select="normalize-space(substring-before($stackTail, ':'))"/>
+            <xsl:variable name="newStackHead" select="number($stackHead)+number($stackHead2)"/>
+            <xsl:call-template name="process">
+              <xsl:with-param name="code"  select='$statementTail'  />
+              <xsl:with-param name="vars"  select='$vars'  />
+              <xsl:with-param name="stack"  select="concat($newStackHead,':',$stack)"  />
+            </xsl:call-template>
+          </xsl:when>            
+            
+          <xsl:otherwise>
+            <xsl:call-template name="process">
+              <xsl:with-param name="code"  select='$statementTail'  />
+              <xsl:with-param name="vars"  select='$vars'  />
+              <xsl:with-param name="stack"  select='$stack'  />
+            </xsl:call-template>
+          </xsl:otherwise>  
+        </xsl:choose>  
+          
+      
+        
     </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
