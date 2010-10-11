@@ -1,0 +1,48 @@
+Compiled from "PiCalculator.java"
+public class marco.stahl.jvm.PiCalculator extends java.lang.Object{
+public marco.stahl.jvm.PiCalculator();
+  Code:
+   0:	aload_0
+   1:	invokespecial	#8; //Method java/lang/Object."<init>":()V
+   4:	return
+
+public static void main(java.lang.String[]);
+  Code:
+   0:	dconst_0
+   1:	dstore_1
+   2:	iconst_1
+   3:	istore_3
+   4:	lconst_1
+   5:	lstore	4
+   7:	goto	31
+   10:	dload_1
+   11:	iload_3
+   12:	i2d
+   13:	lload	4
+   15:	l2d
+   16:	ddiv
+   17:	dadd
+   18:	dstore_1
+   19:	iload_3
+   20:	iconst_m1
+   21:	imul
+   22:	istore_3
+   23:	lload	4
+   25:	ldc2_w	#16; //long 2l
+   28:	ladd
+   29:	lstore	4
+   31:	lload	4
+   33:	ldc2_w	#18; //long 10000l
+   36:	lcmp
+   37:	ifle	10
+   40:	ldc2_w	#20; //double 4.0d
+   43:	dload_1
+   44:	dmul
+   45:	dstore	4
+   47:	getstatic	#22; //Field java/lang/System.out:Ljava/io/PrintStream;
+   50:	dload	4
+   52:	invokevirtual	#28; //Method java/io/PrintStream.println:(D)V
+   55:	return
+
+}
+
