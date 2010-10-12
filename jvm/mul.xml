@@ -4,11 +4,14 @@
   
   <code>     
    0: iload_0
-   1: iconst_1
-   2: iadd
+   1: iload_1
+   2: imul
    3: ireturn
   </code>
     
-  <arg>10</arg>
+  <args>
+    <arg>2</arg>
+    <arg>8</arg>
+  </args>
   
 </class>
