@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml-stylesheet type="text/xsl" href="../xsl/jvm.xsl" ?>
+<jvm>
+  
+  <code>     
+   0: iconst_1
+   1: istore_2
+   2: iconst_0
+   3: istore_3
+   4: goto  14
+   7: iload_2
+   8: iload_0
+   9: imul
+   10:  istore_2
+   11:  iinc  3, 1
+   14:  iload_3
+   15:  iload_1
+   16:  if_icmplt 7
+   19:  iload_2
+   20:  ireturn
+
+  </code>
+    
+  <args>
+    <arg>2</arg>
+    <arg>1</arg>
+  </args>
+  
+</jvm>

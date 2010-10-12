@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <?xml-stylesheet type="text/xsl" href="../xsl/jvm.xsl" ?>
-<class>
+<jvm>
   
   <code>     
    0: iload_0
@@ -19,4 +19,4 @@
     <arg>10</arg>
   </args>
   
-</class>
+</jvm>
