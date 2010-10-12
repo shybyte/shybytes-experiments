@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Java VM Implementation in XSLT</title>
+    <link href="css/shCore.css" rel="stylesheet" type="text/css" />
+    <link href="css/shThemeDefault.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        body {
+          font-size: 10px;
+          background: #ffffcc;
+        }
+        h1 {
+          text-align:center;
+        }
+        .syntaxhighlighter {
+            width: 100% !important;
+            overflow: hidden !important;
+            background: yellow;
+            border: 1px solid silver;
+        }
+          
+    </style>
+  </head>
+  <body>
+    <h1>Java VM Implementation in XSLT</h1>
+    <h2>Example Java Program<h2>
+    <pre class="brush: java">
+      public class SimpleCalculator {
+      
+        public static int pow(int b,int e){
+          int p = 1;
+          for(int i=0;i&lt;e;i++) {
+            p=p*b;
+          }
+          return p;
+      }       
+  </pre>
+  
+   <h2>Resulting Java bytecode<h2>
+    <pre class="brush: java">
+   0: iconst_1
+   1: istore_2
+   2: iconst_0
+   3: istore_3
+   4: goto  14
+   7: iload_2
+   8: iload_0
+   9: imul
+   10:  istore_2
+   11:  iinc  3, 1
+   14:  iload_3
+   15:  iload_1
+   16:  if_icmplt 7
+   19:  iload_2
+   20:  ireturn      
+  </pre>
+    
+<h2>Java bytecode wrapped in XML<h2>    
+<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../xsl/jvm.xsl" ?>
+<jvm>
+  
+  <code>     
+   0: iconst_1
+   1: istore_2
+   2: iconst_0
+   3: istore_3
+   4: goto  14
+   7: iload_2
+   8: iload_0
+   9: imul
+   10:  istore_2
+   11:  iinc  3, 1
+   14:  iload_3
+   15:  iload_1
+   16:  if_icmplt 7
+   19:  iload_2
+   20:  ireturn
+
+  </code>
+    
+  <args>
+    <arg>2</arg>
+    <arg>8</arg>
+  </args>
+  
+</jvm>
+]]></script>    
+
+<h2>Java bytecode executed by XSLT<h2>
+  
+<a href="../examples/pow.xml">Java bytecode executed with XSLT</a>
+<br/>
+<a href="../xsl/jvm.xsl">The XSLT-Stylesheet </a>
+
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>   
+
+
+<script src="js/shCore.js" type="text/javascript"></script>
+<script src="js/shBrushJava.js" type="text/javascript"></script>
+<script src="js/shBrushXml.js" type="text/javascript"></script>        
+<script type="text/javascript">
+     SyntaxHighlighter.all()
+</script>
+
+  </body>
+</html>

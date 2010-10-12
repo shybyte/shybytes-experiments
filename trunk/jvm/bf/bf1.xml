@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<?xml-stylesheet type="text/xsl" href="brainfuck.xsl" ?>
-<brainfuck>
-    <code>,[.,]</code>
-    <input>Hello World!</input>
-</brainfuck>
