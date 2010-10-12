@@ -9,6 +9,8 @@
    3: ireturn
   </code>
     
-  <arg>10</arg>
+  <args>
+    <arg>10</arg>
+  </args>
   
 </class>
