@@ -1,0 +1,70 @@
+Compiled from "SimpleCalculator.java"
+public class marco.stahl.jvm.SimpleCalculator extends java.lang.Object{
+public marco.stahl.jvm.SimpleCalculator();
+  Code:
+   0:	aload_0
+   1:	invokespecial	#8; //Method java/lang/Object."<init>":()V
+   4:	return
+
+public static int pow(int, int);
+  Code:
+   0:	iconst_1
+   1:	istore_2
+   2:	iconst_0
+   3:	istore_3
+   4:	goto	14
+   7:	iload_2
+   8:	iload_0
+   9:	imul
+   10:	istore_2
+   11:	iinc	3, 1
+   14:	iload_3
+   15:	iload_1
+   16:	if_icmplt	7
+   19:	iload_2
+   20:	ireturn
+
+public static int mul(int, int);
+  Code:
+   0:	iload_0
+   1:	iload_1
+   2:	imul
+   3:	ireturn
+
+public static int sign(int);
+  Code:
+   0:	iload_0
+   1:	ifle	6
+   4:	iconst_1
+   5:	ireturn
+   6:	iload_0
+   7:	ifge	12
+   10:	iconst_m1
+   11:	ireturn
+   12:	iconst_0
+   13:	ireturn
+
+public static int inc(int);
+  Code:
+   0:	iload_0
+   1:	iconst_1
+   2:	iadd
+   3:	ireturn
+
+public static void main(java.lang.String[]);
+  Code:
+   0:	getstatic	#30; //Field java/lang/System.out:Ljava/io/PrintStream;
+   3:	new	#36; //class java/lang/StringBuilder
+   6:	dup
+   7:	ldc	#38; //String Result:
+   9:	invokespecial	#40; //Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+   12:	iconst_2
+   13:	bipush	8
+   15:	invokestatic	#43; //Method pow:(II)I
+   18:	invokevirtual	#45; //Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+   21:	invokevirtual	#49; //Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+   24:	invokevirtual	#53; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   27:	return
+
+}
+
