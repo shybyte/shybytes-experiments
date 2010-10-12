@@ -62,7 +62,7 @@
       <xsl:value-of select="$statementTail"/><br/>
       <h3>Result:</h3> 
       <!--<xsl:value-of select="exslt:node-set($vars)/var[@name='i0']/@val"/>-->
-      <xsl:value-of select="$stackHead"/>      
+      <div style="font-size:2em;background:yellow;margin-bottom: 3em;text-align:center;"><xsl:value-of select="$stackHead"/></div>      
     </xsl:when>
     <xsl:otherwise>
       <xsl:variable name="statementRaw" select="substring-before($statementTail, ': ')"/>
@@ -103,20 +103,22 @@
           </xsl:when>  
           
           <xsl:when test="starts-with($statement,'iinc')">
-            
-            <xsl:variable name="varName" select="concat('i',substring-after($statement,'istore_'))"/>
+            <xsl:variable name="p2Tail" select="normalize-space(substring-after($p1Tail, ' '))"/>
+            <xsl:variable name="p2" select="substring-before($p2Tail, ' ')"/>
+            <xsl:variable name="varName" select="concat('i',$p1)"/>
+            <xsl:variable name="varVal" select="exslt:node-set($vars)/var[@name=$varName]/@val"/>
             <xsl:variable name="newVars">
               <xsl:for-each select="exslt:node-set($vars)/var">
                   <xsl:if test="@name!=$varName">
                     <var name="{@name}" val="{@val}"/>        
                   </xsl:if>
               </xsl:for-each>
-              <var name="{$varName}" val="{$stackHead}"/>
+              <var name="{$varName}" val="{number($varVal)+number($p2)}"/>
             </xsl:variable>                                    
             <xsl:call-template name="process">
               <xsl:with-param name="code"  select='$statementTail'  />
               <xsl:with-param name="vars"  select='$newVars'  />
-              <xsl:with-param name="stack"  select="$stackTail"  />
+              <xsl:with-param name="stack"  select="$stack"  />
             </xsl:call-template>
           </xsl:when>  
           
