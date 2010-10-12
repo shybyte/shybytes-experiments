@@ -7,6 +7,7 @@
     omit-xml-declaration="no"
     indent="yes"
     />
+  <xsl:variable name="allCode" select="normalize-space(//code)"/>
 
   <xsl:param name="debug" select="false()"/>
 
@@ -53,6 +54,7 @@
     <xsl:variable name="statementTail" select="normalize-space(substring-after($code, ': '))"/>
     <xsl:variable name="stackTail" select="normalize-space(substring-after($stack, ':'))"/>
     <xsl:variable name="stackHead" select="normalize-space(substring-before($stack, ':'))"/>
+    
     <xsl:choose>
     <xsl:when test="starts-with($statementTail,'ireturn')">
       <xsl:value-of select="$statementTail"/><br/>
@@ -62,8 +64,11 @@
     </xsl:when>
     <xsl:otherwise>
       <xsl:variable name="statementRaw" select="substring-before($statementTail, ': ')"/>
-      <xsl:variable name="statement" select="substring-before($statementRaw, ' ')"/>    
-      <xsl:value-of select="$statement"/><br/>
+      <xsl:variable name="p1Tail" select="substring-after($statementRaw, ' ')"/>
+      <xsl:variable name="p1" select="substring-before($p1Tail, ' ')"/>
+      <xsl:variable name="statement" select="substring-before($statementRaw, ' ')"/>
+          
+      <xsl:value-of select="$statement"/>&#160;<xsl:value-of select="$p1"/><br/>
       
         <xsl:choose>   
                  
@@ -77,8 +82,8 @@
             </xsl:call-template>
           </xsl:when>  
           
-          <xsl:when test="starts-with($statement,'iconst_1')">
-            <xsl:variable name="newStackHead" select="substring-after($statement,'_')"/>                        
+          <xsl:when test="starts-with($statement,'iconst_')">
+            <xsl:variable name="newStackHead" select="number(translate(substring-after($statement,'_'),'m','-'))"/>                        
             <xsl:call-template name="process">
               <xsl:with-param name="code"  select='$statementTail'  />
               <xsl:with-param name="vars"  select='$vars'  />
@@ -107,6 +112,46 @@
               <xsl:with-param name="stack"  select="concat($newStackHead,':',$stack)"  />
             </xsl:call-template>
           </xsl:when>            
+          
+          <xsl:when test="starts-with($statement,'ifle')">            
+            <xsl:choose>
+              <xsl:when test="number($stackHead)&lt;=0">
+                <xsl:call-template name="process">
+                  <xsl:with-param name="code"  select="concat(': ',normalize-space(substring-after($allCode, concat($p1,': '))))"  />
+                  <xsl:with-param name="vars"  select='$vars'  />
+                  <xsl:with-param name="stack"  select="$stackTail"  />
+                </xsl:call-template>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:call-template name="process">
+                  <xsl:with-param name="code"  select='$statementTail'  />
+                  <xsl:with-param name="vars"  select='$vars'  />
+                  <xsl:with-param name="stack"  select="$stackTail"  />
+                </xsl:call-template>
+              </xsl:otherwise>
+            </xsl:choose>  
+          </xsl:when>
+          
+          <xsl:when test="starts-with($statement,'ifge')">            
+            <xsl:choose>
+              <xsl:when test="number($stackHead)&gt;=0">
+                <xsl:call-template name="process">
+                  <xsl:with-param name="code"  select="concat(': ',normalize-space(substring-after($allCode, concat($p1,': '))))"  />
+                  <xsl:with-param name="vars"  select='$vars'  />
+                  <xsl:with-param name="stack"  select="$stackTail"  />
+                </xsl:call-template>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:call-template name="process">
+                  <xsl:with-param name="code"  select='$statementTail'  />
+                  <xsl:with-param name="vars"  select='$vars'  />
+                  <xsl:with-param name="stack"  select="$stackTail"  />
+                </xsl:call-template>
+              </xsl:otherwise>
+            </xsl:choose>  
+          </xsl:when>
+          
+          
             
           <xsl:otherwise>
             <xsl:call-template name="process">
