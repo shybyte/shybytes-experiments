@@ -3,15 +3,13 @@
 <jvm>
   
   <code>     
-   0: iload_0
-   1: iload_1
-   2: imul
-   3: ireturn
+   1: iinc  0, 1
+   2: iload_0
+   5: ireturn
   </code>
     
   <args>
-    <arg>2</arg>
-    <arg>8</arg>
+    <arg>10</arg>
   </args>
   
 </jvm>
