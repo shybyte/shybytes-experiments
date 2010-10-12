@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml-stylesheet type="text/xsl" href="jvm.xsl" ?>
+<class>
+  
+  <code>     
+   0: iload_0
+   1: ifle  6
+   4: iconst_1
+   5: ireturn
+   6: iload_0
+   7: ifge  12
+   10:  iconst_m1
+   11:  ireturn
+   12:  iconst_0
+   13:  ireturn
+  </code>
+    
+  <args>
+    <arg>10</arg>
+  </args>
+  
+</class>
