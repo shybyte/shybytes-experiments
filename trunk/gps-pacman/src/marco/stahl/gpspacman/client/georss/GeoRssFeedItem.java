@@ -38,7 +38,7 @@ public class GeoRssFeedItem extends JavaScriptObject {
 		Iterator<String> it = tokens.iterator();
 		while (it.hasNext()) {
 			double lat = Double.parseDouble(it.next());
-			double lng = Double.parseDouble(it.next());;
+			double lng = Double.parseDouble(it.next());
 			points.add(new GeoPoint(lat, lng));
 		}
 		return new GeoLine(points);
