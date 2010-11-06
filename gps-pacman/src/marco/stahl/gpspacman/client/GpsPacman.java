@@ -1,5 +1,11 @@
 package marco.stahl.gpspacman.client;
 
+import marco.stahl.gpspacman.client.georss.GeoRssFeed;
+import marco.stahl.gpspacman.client.georss.GeoRssFeedCallback;
+import marco.stahl.gpspacman.client.georss.GeoRssFeedCallbackProxy;
+import marco.stahl.gpspacman.client.georss.GeoRssFeedCallback;
+import marco.stahl.gpspacman.client.georss.GeoRssFeedItem;
+
 import com.google.common.collect.Lists;
 import com.google.gwt.ajaxloader.client.AjaxLoader;
 import com.google.gwt.core.client.EntryPoint;
@@ -14,7 +20,6 @@ import com.google.gwt.maps.client.control.LargeMapControl;
 import com.google.gwt.maps.client.geom.LatLng;
 import com.google.gwt.maps.client.overlay.Marker;
 import com.google.gwt.maps.client.overlay.Polyline;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -101,7 +106,7 @@ public class GpsPacman implements EntryPoint {
 		      //var line = $wnd.google.feeds.getElementsByTagNameNS(entry.xmlNode, "http://www.opengis.net/gml", "posList")[0];
 		      //gwtResult.push({title: entry.title,line:line.firstChild.data});
 		      //callback.@marco.stahl.gpspacman.client.JsCallback::onSuccess(Lcom/google/gwt/core/client/JsArray;)(result.feed.entries);
-		      callback.@marco.stahl.gpspacman.client.GeoRssFeedCallbackProxy::onSuccess(Lmarco/stahl/gpspacman/client/GeoRssFeed;)(result.feed);
+		      callback.@marco.stahl.gpspacman.client.georss.GeoRssFeedCallbackProxy::onSuccess(Lmarco/stahl/gpspacman/client/georss/GeoRssFeed;)(result.feed);
 		  } else {
 		  	$wnd.alert($wnd.JSON.stringify(result.error));
 		  }
