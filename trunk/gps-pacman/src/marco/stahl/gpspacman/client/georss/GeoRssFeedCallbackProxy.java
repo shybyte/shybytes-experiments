@@ -1,4 +1,4 @@
-package marco.stahl.gpspacman.client;
+package marco.stahl.gpspacman.client.georss;
 
 public class GeoRssFeedCallbackProxy implements GeoRssFeedCallback {
 	private final GeoRssFeedCallback geoRssFeedCallback;
