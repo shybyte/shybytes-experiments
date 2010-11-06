@@ -1,32 +1,37 @@
 package marco.stahl.gpspacman.client;
 
+import java.util.List;
+
+import marco.stahl.gpspacman.client.geo.GeoLine;
+import marco.stahl.gpspacman.client.geo.GeoPoint;
 import marco.stahl.gpspacman.client.georss.GeoRssFeed;
-import marco.stahl.gpspacman.client.georss.GeoRssFeedCallback;
 import marco.stahl.gpspacman.client.georss.GeoRssFeedCallbackProxy;
-import marco.stahl.gpspacman.client.georss.GeoRssFeedCallback;
 import marco.stahl.gpspacman.client.georss.GeoRssFeedItem;
+import marco.stahl.gpspacman.client.georss.JsCallback;
 
 import com.google.common.collect.Lists;
 import com.google.gwt.ajaxloader.client.AjaxLoader;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.LIElement;
 import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapType;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.Maps;
 import com.google.gwt.maps.client.control.LargeMapControl;
+import com.google.gwt.maps.client.event.PolygonLineUpdatedHandler;
 import com.google.gwt.maps.client.geom.LatLng;
 import com.google.gwt.maps.client.overlay.Marker;
 import com.google.gwt.maps.client.overlay.Polyline;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class GpsPacman implements EntryPoint {
 	private final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);
+	private MapWidget map;
 
 	// GWT module entry point method.
 	public void onModuleLoad() {
@@ -51,7 +56,7 @@ public class GpsPacman implements EntryPoint {
 
 			MapOptions mapOptions = MapOptions.newInstance().setMapTypes(
 					Lists.newArrayList(MapType.getHybridMap()));
-			final MapWidget map = new MapWidget(auerPark, 18, mapOptions);
+			map = new MapWidget(auerPark, 18, mapOptions);
 			map.setSize("600px", "400px");
 			// Add some controls for the zoom level
 			map.addControl(new LargeMapControl());
@@ -61,15 +66,15 @@ public class GpsPacman implements EntryPoint {
 			map.addOverlay(center);
 			center.setImage("images/pacman.png");
 
-			Polyline polyline = new Polyline(
-					new LatLng[] { LatLng.newInstance(52.518490, 13.444229), LatLng
-							.newInstance(52.518459, 13.444300), LatLng
-							.newInstance(52.518429, 13.444290), LatLng
-							.newInstance(52.518291, 13.445630), LatLng
-							.newInstance(52.519058, 13.445140), LatLng
-							.newInstance(52.518848, 13.444470), LatLng
-							.newInstance(52.518490, 13.444232) });
-			map.addOverlay(polyline);
+//			Polyline polyline = new Polyline(
+//					new LatLng[] { LatLng.newInstance(52.518490, 13.444229), LatLng
+//							.newInstance(52.518459, 13.444300), LatLng
+//							.newInstance(52.518429, 13.444290), LatLng
+//							.newInstance(52.518291, 13.445630), LatLng
+//							.newInstance(52.519058, 13.445140), LatLng
+//							.newInstance(52.518848, 13.444470), LatLng
+//							.newInstance(52.518490, 13.444232) });
+//			map.addOverlay(polyline);
 
 			flowPanel.add(map);
 		}
@@ -77,21 +82,17 @@ public class GpsPacman implements EntryPoint {
 
 		FlowPanel console = new FlowPanel();
 		flowPanel.add(console);
-		loadMap(new GeoRssFeedCallbackProxy(new GeoRssFeedCallback() {
+		loadMap(new GeoRssFeedCallbackProxy(new JsCallback<GeoRssFeed>(){
 			
 			@Override
 			public void onSuccess(GeoRssFeed feed) {
-				JsArray<GeoRssFeedItem> items = feed.getEntries();
-				for (int i = 0; i < items.length(); i++) {
-					GeoRssFeedItem item = items.get(i);
-					flowPanel.add(new Label(item.getTitle()+" ---- " +item.getLine()));
-				}				
+				drawLines(feed);				
 				
 			}
 			
 			@Override
 			public void onFailure(String caught) {
-				// TODO Auto-generated method stub
+				Window.alert(caught);
 				
 			}
 		}));
@@ -102,34 +103,32 @@ public class GpsPacman implements EntryPoint {
 		feed.setResultFormat($wnd.google.feeds.Feed.MIXED_FORMAT);
 		feed.load(function(result) {
 		  if (!result.error) {          
-		      //var entry = result.feed.entries[i];
-		      //var line = $wnd.google.feeds.getElementsByTagNameNS(entry.xmlNode, "http://www.opengis.net/gml", "posList")[0];
-		      //gwtResult.push({title: entry.title,line:line.firstChild.data});
-		      //callback.@marco.stahl.gpspacman.client.JsCallback::onSuccess(Lcom/google/gwt/core/client/JsArray;)(result.feed.entries);
 		      callback.@marco.stahl.gpspacman.client.georss.GeoRssFeedCallbackProxy::onSuccess(Lmarco/stahl/gpspacman/client/georss/GeoRssFeed;)(result.feed);
 		  } else {
-		  	$wnd.alert($wnd.JSON.stringify(result.error));
+		  	callback.@marco.stahl.gpspacman.client.georss.GeoRssFeedCallbackProxy::onFailure(Ljava/lang/String;)(result.error);
 		  }
 		});
 	}-*/;
 
-	private native void nativeMakeImagePieChart(Element chartDiv) /*-{
-		var data = new $wnd.google.visualization.DataTable();
-		data.addColumn('string', 'Task');
-		data.addColumn('number', 'Hours per Day');
-		data.addRows(5);
-		data.setValue(0, 0, 'Work');
-		data.setValue(0, 1, 11);
-		data.setValue(1, 0, 'Eat');
-		data.setValue(1, 1, 2);
-		data.setValue(2, 0, 'Commute');
-		data.setValue(2, 1, 2);
-		data.setValue(3, 0, 'Watch TV');
-		data.setValue(3, 1, 2);
-		data.setValue(4, 0, 'Sleep');
-		data.setValue(4, 1, 7);
+	private void drawLines(GeoRssFeed feed) {
+		JsArray<GeoRssFeedItem> items = feed.getEntries();
+		for (int i = 0; i < items.length(); i++) {
+			GeoRssFeedItem item = items.get(i);
+			GeoLine line = item.getLine();
+			if (line!=null) {
+				Polyline polyline = createGoogleMapsPolyline(line);
+				map.addOverlay(polyline);
+			}
+		}
+	}
 
-		var chart = new $wnd.google.visualization.ImagePieChart(chartDiv);
-		chart.draw(data, {width: 500, height: 200, is3D: true, title: 'My Daily Activities'});
-	}-*/;
+	private Polyline createGoogleMapsPolyline(GeoLine line) {
+		List<GeoPoint> geoPoints = line.getPoints();
+		LatLng[] linePoints = new LatLng[geoPoints.size()];
+		for (int i = 0; i < linePoints.length; i++) {
+			GeoPoint geoPoint = geoPoints.get(i);
+			linePoints[i] = LatLng.newInstance(geoPoint.getLat(), geoPoint.getLong()); 
+		}
+		return new Polyline(linePoints);
+	}
 }
