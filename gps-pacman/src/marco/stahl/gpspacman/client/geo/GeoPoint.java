@@ -1,6 +1,6 @@
 package marco.stahl.gpspacman.client.geo;
 
-import com.google.common.primitives.Doubles;
+import com.google.common.base.Objects;
 
 
 public class GeoPoint {
@@ -21,22 +21,15 @@ public class GeoPoint {
 		return lng;
 	}
 	
-	
 	@Override
 	public String toString() {
 		return "GeoPoint [lat=" + lat + ", lng=" + lng + "]";
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Doubles.hashCode(lat);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Doubles.hashCode(lat);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
+		return Objects.hashCode(lat,lng);
 	}
 
 	@Override
