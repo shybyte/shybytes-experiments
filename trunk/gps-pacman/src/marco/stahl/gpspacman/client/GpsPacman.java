@@ -14,13 +14,11 @@ import com.google.gwt.ajaxloader.client.AjaxLoader;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.dom.client.LIElement;
 import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapType;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.Maps;
 import com.google.gwt.maps.client.control.LargeMapControl;
-import com.google.gwt.maps.client.event.PolygonLineUpdatedHandler;
 import com.google.gwt.maps.client.geom.LatLng;
 import com.google.gwt.maps.client.overlay.Marker;
 import com.google.gwt.maps.client.overlay.Polyline;
@@ -34,11 +32,14 @@ public class GpsPacman implements EntryPoint {
 	private MapWidget map;
 
 	// GWT module entry point method.
+	@Override
 	public void onModuleLoad() {
 		AjaxLoader.init();
 		Maps.loadMapsApi("", "2", false, new Runnable() {
+			@Override
 			public void run() {
 				AjaxLoader.loadApi("feeds", "1", new Runnable() {
+					@Override
 					public void run() {
 						buildUi();
 					}
