@@ -38,12 +38,11 @@ public class GpsPacman implements EntryPoint, PositionCallback {
 	private MapWidget map;
 	private Marker playerPos;
 	private Geolocation geo;
-	private boolean isPositionListenerInstalled = false;
 	private PositionOptions positionOptions;
 
 	@Override
 	public void onModuleLoad() {
-		AjaxLoader.init();
+		AjaxLoader.init("ABQIAAAACYb_oLnlxYFD0wSNzyZHGhT_xBYFzPTH5JbfPqjwCFLIVf5KjxTGuWOcBwVvHZ-8Nz0beAmaWI2T-g");
 		Maps.loadMapsApi("", "2", false, new Runnable() {
 			@Override
 			public void run() {
@@ -64,8 +63,8 @@ public class GpsPacman implements EntryPoint, PositionCallback {
 			geo = Geolocation.getGeolocation();
 			if (geo != null) {
 				positionOptions = PositionOptions.create();
-				positionOptions.setEnableHighAccuracy(false);				
-				geo.getCurrentPosition(this,positionOptions);
+				positionOptions.setEnableHighAccuracy(true);
+				geo.watchPosition(this, positionOptions);
 			} else {
 				Window.alert("Geo was null");
 			}
@@ -83,7 +82,7 @@ public class GpsPacman implements EntryPoint, PositionCallback {
 			MapOptions mapOptions = MapOptions.newInstance().setMapTypes(
 					Lists.newArrayList(MapType.getHybridMap()));
 			map = new MapWidget(auerPark, 18, mapOptions);
-			map.setSize("600px", "400px");
+			map.setSize("320px", "320px");
 			// Add some controls for the zoom level
 			map.addControl(new LargeMapControl());
 
@@ -126,11 +125,11 @@ public class GpsPacman implements EntryPoint, PositionCallback {
 		var feed = new $wnd.google.feeds.Feed("http://maps.google.com/maps/ms?ie=UTF8&hl=en&vps=1&jsv=290a&msa=0&output=georss&msid=100976889524593770371.0004935c45a9beae52c82");
 		feed.setResultFormat($wnd.google.feeds.Feed.MIXED_FORMAT);
 		feed.load(function(result) {
-		if (!result.error) {          
-		callback.@marco.stahl.gpspacman.client.georss.GeoRssFeedCallbackProxy::onSuccess(Lmarco/stahl/gpspacman/client/georss/GeoRssFeed;)(result.feed);
-		} else {
-		callback.@marco.stahl.gpspacman.client.georss.GeoRssFeedCallbackProxy::onFailure(Ljava/lang/String;)(result.error);
-		}
+			if (!result.error) {          
+				callback.@marco.stahl.gpspacman.client.georss.GeoRssFeedCallbackProxy::onSuccess(Lmarco/stahl/gpspacman/client/georss/GeoRssFeed;)(result.feed);
+			} else {
+				callback.@marco.stahl.gpspacman.client.georss.GeoRssFeedCallbackProxy::onFailure(Ljava/lang/String;)(result.error);
+			}
 		});
 	}-*/;
 
@@ -161,12 +160,10 @@ public class GpsPacman implements EntryPoint, PositionCallback {
 	public void onSuccess(Position position) {
 		if (map != null) {
 			Coordinates coords = position.getCoords();
-			playerPos.setLatLng(LatLng.newInstance(coords.getLatitude(),
-					coords.getLongitude()));
-		}
-		if (!isPositionListenerInstalled) {
-			geo.watchPosition(this,positionOptions);
-			isPositionListenerInstalled = true;
+			LatLng playerLatLng = LatLng.newInstance(coords.getLatitude(),
+					coords.getLongitude());
+			playerPos.setLatLng(playerLatLng);
+			map.setCenter(playerLatLng);
 		}
 	}
 
