@@ -1,0 +1,12 @@
+2011-04-19 23:16:12.930 play.Logger info: elementsSize:11
+I 2011-04-19 23:16:12.930 play.Logger info: id:100002058404488
+I 2011-04-19 23:16:12.930 play.Logger info: name:Kai Nerda
+I 2011-04-19 23:16:12.930 play.Logger info: first_name:Kai
+I 2011-04-19 23:16:12.931 play.Logger info: last_name:Nerda
+I 2011-04-19 23:16:12.931 play.Logger info: link:http://www.facebook.com/profile.php?id=100002058404488
+I 2011-04-19 23:16:12.931 play.Logger info: gender:male
+I 2011-04-19 23:16:12.931 play.Logger info: timezone:2
+I 2011-04-19 23:16:12.931 play.Logger info: locale:en_US
+I 2011-04-19 23:16:12.931 play.Logger info: updated_time:2011-04-19T06:35:48+0000
+I 2011-04-19 23:16:12.931 play.Logger info: accessToken:187774674601255|2.u3JWx1iL_jomhBokdWpDkQ__.3600.1303286400.1-100002058404488|Sygek3pc7oqnsx_F_wf8K6S0Wrc
+I 2011-04-19 23:16:12.931 play.Logger info: expires:6228
