@@ -47,5 +47,9 @@ object Application extends Controller {
   def logout() = {
     Auth.logout("Application.index");
   }
+  
+  def canvas() = {
+	  Template()
+  }
 
 }
