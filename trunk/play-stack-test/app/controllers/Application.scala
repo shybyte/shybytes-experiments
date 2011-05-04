@@ -5,6 +5,7 @@ import play._
 import play.mvc._
 import play.mvc.Scope.Session;
 
+import dogather.facebook._;
 import models._
 import models.User
 import java.util._
@@ -48,8 +49,10 @@ object Application extends Controller {
     Auth.logout("Application.index");
   }
   
-  def canvas() = {
-	  Template()
+  def canvas(signed_request:String) = {
+	  Logger.info("canvas with"+signed_request); 
+	  val fbRequest = FacebookUtils.decodeSignedRequest(signed_request);
+	  Template('signed_request -> signed_request,'fbRequest -> fbRequest)
   }
 
 }

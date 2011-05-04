@@ -1,0 +1,14 @@
+# Application dependencies
+#    - com.google.guava -> guava r07
+    
+require:
+    - play 1.2
+    - org.scalatest -> scalatest 1.3
+    
+# My custom repositories
+repositories:    
+    - scalatools:
+        type:       http
+        artifact:   "http://www.scala-tools.org/repo-releases"
+        contains:
+            - org.scalatest -> *    
