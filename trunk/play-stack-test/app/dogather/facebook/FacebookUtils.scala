@@ -20,7 +20,8 @@ object FacebookUtils {
 		/* split the string into signature and payload */
 		val idx = sigreq.indexOf(".") 
 		val sig = new Base64(true).decode(sigreq.substring(0, idx).getBytes()) 
-		val rawpayload = sigreq.substring(idx+1) 
+		val rawpayload = sigreq.substring(idx+1).replace("-", "+").replace("_", "/").trim()
+		
 		val payload = new String(new Base64(true).decode(rawpayload)) 
 
 		/* parse the JSON payload and do the signature check */
