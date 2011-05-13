@@ -43,9 +43,12 @@ object Application extends Controller {
         user.insert()
         Logger.info("created new User:" + user.externalId);
       }
-      Template('userName -> user.externalId)
+      
+      var things = Thing.findByUser(user.externalId)
+      Logger.info(things.toString());
+      Template('userName -> user.externalId,'things -> things)
     } else {
-      Template('userName -> "anonymous")
+      Template('userName -> "")
     }
   }
 
@@ -58,7 +61,7 @@ object Application extends Controller {
   }
 
   def authUrl = "https://www.facebook.com/dialog/oauth?client_id=%s&redirect_uri=%s" format ("187774674601255", WS.encode(Router.getFullUrl("Application.canvas")))
-  
+
   def canvas(signed_request: String) = {
     if (signed_request == null) {
       "Hossa: " + authUrl
@@ -71,6 +74,14 @@ object Application extends Controller {
         Template('signed_request -> signed_request, 'fbRequest -> fbRequest)
       }
     }
+  }
+
+  def postThing(title: String) = {
+    val thing = new Thing()
+    thing.title = title
+    thing.userId =  Auth.getExternalId()
+    thing.insert()
+    Action(index())
   }
 
 }
