@@ -16,22 +16,20 @@ object FacebookUtils {
 	private val SIGN_ALGORITHM = "HMACSHA256" 
 	private val secret = "68bce34bffaa034b704a484cd51d2e3d" 
 
-	def decodeSignedRequest(sigreq:String): FacebookRequest = {
-		/* split the string into signature and payload */
-		val idx = sigreq.indexOf(".") 
-		val sig = new Base64(true).decode(sigreq.substring(0, idx).getBytes()) 
-		val rawpayload = sigreq.substring(idx+1).replace("-", "+").replace("_", "/").trim()
+	val base64 = new Base64(true);
+	def base64UrlDecode(encoded:String) = base64.decode(encoded.replace('-', '+').replace('_', '/').trim())
 		
-		val payload = new String(new Base64(true).decode(rawpayload)) 
+	def decodeSignedRequest(sigreq:String): FacebookRequest = {
+		val Array(encodedSig,encodedPayload) = sigreq.split('.')
+		val sig = base64UrlDecode(encodedSig) 
+		
+		val rawpayload = encodedPayload.replace("-", "+").replace("_", "/").trim()
+		val payload = new String(base64.decode(rawpayload)) 
 
-		/* parse the JSON payload and do the signature check */
 		val ret = new Gson().fromJson(payload, classOf[FacebookRequest]) 
-		/* check if it is HMAC-SHA256 */
 		if (!ret.algorithm.equals("HMAC-SHA256")) {
-			/* note that this follows facebooks example, as published on 2010-07-21 (I wonder when this will break) */
 			throw new IllegalArgumentException("Unexpected hash algorithm " + ret.algorithm) 
 		}
-		/* then check the signature */
 		checkSignature(rawpayload, sig) 
 		return ret
 	}

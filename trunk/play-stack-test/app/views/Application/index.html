@@ -4,8 +4,33 @@
 Hello ${userName} !!! <br/>
 Counter: ${session.count}
 <br/>
-#{fbconnect.button /}
+
+#{if userName}
+    #{form @Application.postThing()}
+        <p>
+            <input type="text" name="title" id="title"/>
+        </p>
+    
+        <p>
+            <input type="submit" value="Submit your comment" />
+        </p>
+        
+    #{/form}
+    
+    <ul>
+        #{list items:things, as:'thing'}
+            <li>${thing.title} of ${thing.userId}</li>
+        #{/list}
+    </ul>
+    
+#{/if}
 
 
-<a href="@{login()}">Login</a> 
-<a href="@{logout()}">Logout</a>
+
+#{if userName }
+  <a href="@{logout()}">Logout</a>
+#{/if}
+#{else}
+  #{fbconnect.button /}
+  <a href="@{login()}">Login</a> 
+#{/else}
